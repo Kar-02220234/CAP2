@@ -14,12 +14,6 @@ class Account:
         self.balance += amount
         print(f"Deposited {amount}. Your available balance: {self.balance}")
 
-    def withdraw(self, amount):
-        if self.balance >= amount:
-            self.balance -= amount
-            print(f"Withdrew {amount}. Your available balance: {self.balance}")
-        else:
-            print("Insufficient funds!")
 
     def send_money(self, amount, receiver):
         if self.balance >= amount:
@@ -28,7 +22,14 @@ class Account:
             print(f"Sent {amount} to {receiver.account_number}. Your available balance: {self.balance}")
         else:
             print("Insufficient funds!")
-
+    
+    def withdraw(self, amount):
+        if self.balance >= amount:
+            self.balance -= amount
+            print(f"Withdrew {amount}. Your available balance: {self.balance}")
+        else:
+            print("Insufficient funds!")
+            
     def save_to_file(self):
         with open(ACCOUNTS_FILE_DIRECTORY, "a") as file:
             file.write(f"{self.account_number},{self.password},{self.account_type},{self.balance}\n")
@@ -43,14 +44,7 @@ class Account:
                     accounts.append(cls(account_number, password, account_type, int(balance)))
         return accounts
     
-    @classmethod
-    def find_account(cls, account_number, password):
-        accounts = cls.load_accounts()
-        for account in accounts:
-            if account.account_number == account_number and account.password == password:
-                return account
-        return None
-
+   
     @classmethod
     def delete_account(cls, account_number, password):
         accounts = cls.load_accounts()
@@ -59,6 +53,15 @@ class Account:
             for account in accounts:
                 file.write(f"{account.account_number},{account.password},{account.account_type},{account.balance}\n")
         print("Account deleted.")
+    
+    @classmethod
+    def find_account(cls, account_number, password):
+        accounts = cls.load_accounts()
+        for account in accounts:
+            if account.account_number == account_number and account.password == password:
+                return account
+        return None
+
 
 class PersonalAccount(Account):
     def __init__(self, account_number, password, balance=0):
@@ -138,7 +141,7 @@ def main():
                             amount = float(input("Enter amount to send: "))
                             account.send_money(amount, receiver)
                         else:
-                            print("Receiver account not found or invalid password!")
+                            print("Receiver account not found or wrong password!")
                     elif user_choice == "5":
                         Account.delete_account(account.account_number, account.password)
                         print("Account deleted. Logging out.")
