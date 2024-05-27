@@ -6,18 +6,18 @@ ACCOUNTS_FILE_DIRECTORY = "accounts.txt"
 class Account:
     def __init__(self, account_number, password, account_type, balance=0):
         self.account_number = account_number
-        self.password = password  # Note: Consider hashing this value for security
+        self.password = password  
         self.account_type = account_type
         self.balance = balance
 
     def deposit(self, amount):
         self.balance += amount
-        print(f"Deposited {amount}. Your Available balance: {self.balance}")
+        print(f"Deposited {amount}. Your available balance: {self.balance}")
 
     def withdraw(self, amount):
         if self.balance >= amount:
             self.balance -= amount
-            print(f"Withdrew {amount}. Your Available balance: {self.balance}")
+            print(f"Withdrew {amount}. Your available balance: {self.balance}")
         else:
             print("Insufficient funds!")
 
@@ -25,7 +25,7 @@ class Account:
         if self.balance >= amount:
             self.balance -= amount
             receiver.balance += amount
-            print(f"Sent {amount} to {receiver.account_number}. Your Available balance: {self.balance}")
+            print(f"Sent {amount} to {receiver.account_number}. Your available balance: {self.balance}")
         else:
             print("Insufficient funds!")
 
@@ -113,7 +113,7 @@ def main():
             account = login()
             if account:
                 while True:
-                    print("What do you want to do?")
+                    print("Choose one option from below:")
                     print("\nEnter 1 to Check Balance")
                     print("\nEnter 2 to Deposit")
                     print("\nEnter 3 to Withdraw")
@@ -131,7 +131,7 @@ def main():
                         amount = float(input("Enter amount to withdraw: "))
                         account.withdraw(amount)
                     elif user_choice == "4":
-                        receiver_account_number = input("Enter receiver's account number: ")
+                        receiver_account_number = input("Enter receiver's Acc No: ")
                         receiver_password = input("Enter receiver's password: ")
                         receiver = Account.find_account(receiver_account_number, receiver_password)
                         if receiver:
@@ -147,12 +147,12 @@ def main():
                         print("Logged out.")
                         break
                     else:
-                        print("Invalid choice!")
+                        print("wrong choice!")
 
         elif choice == "3":
             break
         else:
-            print("Invalid choice!")
+            print("wrong choice!")
 
 if __name__ == "__main__":
     main()
